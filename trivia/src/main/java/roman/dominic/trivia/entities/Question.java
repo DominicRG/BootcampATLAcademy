@@ -1,18 +1,18 @@
 package roman.dominic.trivia.entities;
 
-public class Pregunta {
+public class Question {
 
-    private String category;
+    private Category category;
     private String question;
     private String[] options;
     private Integer answer;
-    private String explanations;
+    private String explanation;
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -40,11 +40,11 @@ public class Pregunta {
         this.answer = answer;
     }
 
-    public String getExplanations() {
-        return explanations;
+    public String getExplanation() {
+        return explanation;
     }
 
-    public void setExplanations(String explanations) {
-        this.explanations = explanations;
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
     }
 }

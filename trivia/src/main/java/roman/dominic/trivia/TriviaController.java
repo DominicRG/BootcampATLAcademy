@@ -1,11 +1,11 @@
 package roman.dominic.trivia;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import roman.dominic.trivia.entities.Categoria;
-import roman.dominic.trivia.entities.Pregunta;
+import roman.dominic.trivia.entities.Category;
+import roman.dominic.trivia.repository.CategoryRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,41 +13,39 @@ import java.util.List;
 @RestController
 public class TriviaController {
 
-    @GetMapping("/question/{categoria}")
-    public String getQuestion(@PathVariable String categoria){
+    @Autowired
+    CategoryRepository categoryRepository;
 
-        ChatGptClient chatGpt = new ChatGptClient();
-        String respuestaJson = chatGpt.enviarPregunta("Estoy armando una trivia, necesito que me des una pregunta de la categoria " + categoria + ", con la siguiente estructura de JSON. LA respuesta de la pregunta no siempre tiene que ser la primera, tiene que variar:\n" +
-                "\n" +
-                "{\n" +
-                "  \"category\": \"aca va el nombre de la categoria\",\n" +
-                "  \"question\": \"aca va la pregunta\",\n" +
-                "  \"options\": [\n" +
-                "    \"aca va la opcion 1\",\n" +
-                "    \"aca va la opcion 2\",\n" +
-                "    \"aca va la opcion 3\"\n" +
-                "  ],\n" +
-                "  \"answer\": aqui va la respuesta correcta en caso de ser la primera es el numero 0 en caso de ser la segunda es el 1 y en caso de ser la tercera es el 2,\n" +
-                "  \"explanation\": \"aca tienes que poner una explicacion diciendo porque es la respuesta correcta\"\n" +
-                "}");
-        return respuestaJson;
+    @GetMapping("/busqueda-{id}")
+    public Category buscarPorId(@PathVariable Long id) {
+        return categoryRepository.findById(id);
+    }
+
+    @GetMapping("/question/{categoria}")
+    public Category getQuestion(@PathVariable String categoria){
+
+        List<Category> resultado = new ArrayList<>();
+        Category ejemplo = categoryRepository.findById(1L);
+        resultado.add(ejemplo);
+
+        return ejemplo;
         //ObjectMapper convertidor = new ObjectMapper();
         //Pregunta preg = convertidor.convertValue(respuestaJson, Pregunta.class);
         //return preg;
     }
 
     @GetMapping("/categories")
-    public Categoria[] getCategories(){
+    public Category[] getCategories(){
 
-        Categoria cat = new Categoria();
-        cat.setCategory("Arte");
-        cat.setDescripcion("Preguntas relacionadas con pintura, escultura, arquitectura y otras formas de expresión artística.");
+        Category cat = new Category();
+        cat.setName("Arte");
+        cat.setDescription("Preguntas relacionadas con pintura, escultura, arquitectura y otras formas de expresión artística.");
 
-        Categoria cat2 = new Categoria();
-        cat2.setCategory("Deportes");
-        cat2.setDescripcion("Preguntas relacionadas con diversos deportes y eventos deportivos.");
+        Category cat2 = new Category();
+        cat2.setName("Deportes");
+        cat2.setDescription("Preguntas relacionadas con diversos deportes y eventos deportivos.");
 
-        Categoria[] categorias = new Categoria[2];
+        Category[] categorias = new Category[2];
         categorias[0] = cat;
         categorias[1] = cat2;
 
