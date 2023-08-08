@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class PropiedadController implements PropiedadInterface {
+public class PropiedadController{
 
     @Autowired
     private PropiedadService propiedadService;
@@ -22,7 +22,7 @@ public class PropiedadController implements PropiedadInterface {
 
     @PutMapping("/api/propiedad/{id}")
     public void modificar(@RequestBody Propiedad propiedad, @PathVariable("id") Long id){
-        propiedadService.modificar(propiedad, id);
+        propiedadService.modificar(propiedad);
     }
 
     @DeleteMapping("/api/propiedad/{id}")
@@ -32,41 +32,11 @@ public class PropiedadController implements PropiedadInterface {
 
     @GetMapping("/api/propiedad/{id}")
     public Propiedad get(@PathVariable("id") Long id){
-        Propiedad propiedad = new Propiedad();
-        propiedad.setId(1L);
-        propiedad.setAno("1945");
-        propiedad.setBanos("3");
-        propiedad.setTitulo("Departamento al frente de la playa.");
-        propiedad.setDescripcion("Hermoso departamento al frente de la playa.");
-        propiedad.setLongitud("41.3174241");
-        propiedad.setLatitud("2.1399451");
-        return propiedad;
+        return propiedadService.get(id);
     }
 
     @GetMapping("/api/propiedad")
     public List<Propiedad> getAll(){
-        List<Propiedad> list = new ArrayList<>();
-
-        Propiedad propiedad = new Propiedad();
-        propiedad.setId(1L);
-        propiedad.setAno("1945");
-        propiedad.setBanos("3");
-        propiedad.setTitulo("Departamento al frente de la playa.");
-        propiedad.setDescripcion("Hermoso departamento al frente de la playa.");
-        propiedad.setLongitud("41.3174241");
-        propiedad.setLatitud("2.1399451");
-
-        Propiedad propiedad2 = new Propiedad();
-        propiedad2.setId(2L);
-        propiedad2.setAno("1945");
-        propiedad2.setBanos("1");
-        propiedad2.setTitulo("Departamento al frente de la Montaña.");
-        propiedad2.setDescripcion("Hermoso departamento al frente de la Montaña.");
-        propiedad2.setLongitud("42.3174241");
-        propiedad2.setLatitud("2.1399451");
-
-        list.add(propiedad);
-        list.add(propiedad2);
-        return list;
+        return propiedadService.getAll();
     }
 }
